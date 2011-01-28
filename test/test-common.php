@@ -15,7 +15,16 @@
  * @license http://www.opensource.org/licenses/bsd-license.php
  * @package BassoonTest
  */
+
+/*
+ * -----------------------------------------------------------------------------
+ * SINCE BASSOON RELIES ON REED IN ORDER TO PROPERLY TEST SOME CLASSES WE NEED
+ * TO LOAD SOME REED CLASSES.  FOR THIS REASON THE TESTS WON'T RUN UNTIL THIS
+ * PATH POINTS TO THE SOURCE DIRECTORY OR A REED INSTALLATION.
+ * -----------------------------------------------------------------------------
+ */
+define('REED_PATH', __DIR__ . '/../../reed/src');
  
-require_once 'PHPUnit/Framework.php';
-require_once dirname(__FILE__).'/../src/Bassoon/Autoloader.php';
-require_once dirname(__FILE__).'/Bassoon/Autoloader.php';
+require_once REED_PATH . '/Autoloader.php';
+require_once __DIR__ . '/../src/Autoloader.php';
+require_once __DIR__ . '/Autoloader.php';
