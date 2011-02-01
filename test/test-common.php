@@ -24,7 +24,7 @@
  * -----------------------------------------------------------------------------
  */
 define('REED_PATH', __DIR__ . '/../../reed/src');
- 
 require_once REED_PATH . '/Autoloader.php';
+
 require_once __DIR__ . '/../src/Autoloader.php';
 require_once __DIR__ . '/Autoloader.php';

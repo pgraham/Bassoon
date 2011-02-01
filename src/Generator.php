@@ -1,5 +1,4 @@
 <?php
-namespace Bassoon;
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -14,6 +13,8 @@ namespace Bassoon;
  * @license http://www.opensource.org/licenses/bsd-license.php
  * @package Bassoon
  */
+namespace Bassoon;
+
 /**
  * This class generates the server-side dispatcher and client-side proxy for a
  * single RemoteService implementation.

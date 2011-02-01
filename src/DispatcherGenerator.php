@@ -1,5 +1,4 @@
 <?php
-namespace Bassoon;
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -14,6 +13,10 @@ namespace Bassoon;
  * @license http://www.opensource.org/licenses/bsd-license.php
  * @package Bassoon
  */
+namespace Bassoon;
+
+use \SplFileObject;
+
 /**
  * This class generate the server-side dispatcher for a a single
  * Bassoon_RemoteService implementation.
@@ -39,7 +42,7 @@ class DispatcherGenerator {
       $template = new Template\Dispatcher($method);
 
       $fileName = $dispatcherDir.'/'.$method->getName().'.php';
-      $file = new \SplFileObject($fileName, 'w');
+      $file = new SplFileObject($fileName, 'w');
       $file->fwrite($template);
     }
   }
