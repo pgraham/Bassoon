@@ -50,7 +50,7 @@ class Dispatcher implements Template {
     // Grab required information about the service class
     $srvc = $this->_method->getRemoteService();
     $srvcPath = $srvc->getServiceDefinitionPath();
-    $srvcName = $srvc->getName();
+    $srvcName = $srvc->getServiceClass();
 
     // Grab required information about the service method
     $mthdName = $this->_method->getName();
@@ -108,7 +108,7 @@ class Dispatcher implements Template {
     $lines[] = " header('HTTP/1.1 500 Internal Server Error');";
 
     if (Config::isDebug()) {
-      $lines[] = " echo json_encode(array('msg'=>$exVar->__toString()));";
+      $lines[] = " echo json_encode(array('msg'=>{$exVar}->__toString()));";
     }
     $lines[] = "}";
 

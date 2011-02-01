@@ -146,11 +146,15 @@ class RemoteService {
     $this->_srvcPath  = $docWrite . '/ajx/' . $srvcName;
 
     if (strpos($docWrite, $docRoot) !== false) {
+      // TODO - This branch needs some clean up and explanations of how the path
+      //        manipulation is intended to work
       $replaceStr = $docRoot;
       if (substr($webRoot, -1) == '/') {
         $replaceStr . '/';
+      } else {
+        $webRoot .= '/';
       }
-      $webWrite = $webRoot . str_replace($docRoot . '/', '', $docWrite);
+      $webWrite = $webRoot . str_replace($replaceStr, '', $docWrite);
 
     // If the web writable dir is not beneath the doc root, output the web path as
     // a full path
@@ -227,12 +231,12 @@ class RemoteService {
   }
 
   /**
-   * Getter for the path to the service dispatcher.
+   * Getter for the service's class name.
    *
-   * @return string The path the generated dispatcher
+   * @return string
    */
-  public function getServicePath() {
-    return $this->_srvcPath;
+  public function getServiceClass() {
+    return $this->_class->getName();
   }
 
   /**
@@ -242,6 +246,15 @@ class RemoteService {
    */
   public function getServiceDefinitionPath() {
     return $this->_class->getFileName();
+  }
+
+  /**
+   * Getter for the path to the service dispatcher.
+   *
+   * @return string The path the generated dispatcher
+   */
+  public function getServicePath() {
+    return $this->_srvcPath;
   }
 
   /**
