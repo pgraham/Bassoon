@@ -1,10 +1,4 @@
 <?php
-namespace Bassoon;
-
-use ReflectionClass;
-use ReflectionException;
-
-use \Reed\Config;
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -19,6 +13,13 @@ use \Reed\Config;
  * @license http://www.opensource.org/licenses/bsd-license.php
  * @package Bassoon
  */
+namespace Bassoon;
+
+use ReflectionClass;
+use ReflectionException;
+
+use \reed\Config;
+
 /**
  * This class encapsulates information about the generated code for the given
  * RemoteService implementation.

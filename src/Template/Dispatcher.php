@@ -1,10 +1,4 @@
 <?php
-namespace Bassoon\Template;
-
-use \Bassoon\RemoteServiceMethod;
-use \Bassoon\Template;
-
-use \Reed\Config;
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -19,6 +13,13 @@ use \Reed\Config;
  * @license http://www.opensource.org/licenses/bsd-license.php
  * @package Bassoon
  */
+namespace Bassoon\Template;
+
+use \Bassoon\RemoteServiceMethod;
+use \Bassoon\Template;
+
+use \reed\Config;
+
 /**
  * This class encapsulates the code template for the dispatcher for a service
  * method.
