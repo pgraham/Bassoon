@@ -47,11 +47,11 @@ class Generator {
    * This method generates the server side dispatcher and client-side proxy
    * for the service.
    */
-  public function generate() {
+  public function generate($outputPath) {
     $proxyGenerator = new ProxyGenerator($this->_srvc);
-    $proxyGenerator->generate();
+    $proxyGenerator->generate($outputPath);
 
     $dispatcherGenerator = new DispatcherGenerator($this->_srvc);
-    $dispatcherGenerator->generate();
+    $dispatcherGenerator->generate($outputPath);
   }
 }

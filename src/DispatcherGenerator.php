@@ -11,7 +11,7 @@
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package Bassoon
+ * @package bassoon
  */
 namespace Bassoon;
 
@@ -22,7 +22,7 @@ use \SplFileObject;
  * Bassoon_RemoteService implementation.
  *
  * @author Philip Graham <philip@zeptech.ca>
- * @package Bassoon
+ * @package bassoon
  */
 class DispatcherGenerator {
 
@@ -32,8 +32,8 @@ class DispatcherGenerator {
     $this->_srvc = $srvc;
   }
 
-  public function generate() {
-    $dispatcherDir = $this->_srvc->getServicePath();
+  public function generate($outputPath) {
+    $dispatcherDir = $outputPath . '/ajx/' . $this->_srvc->getName();
     if (!is_dir($dispatcherDir)) {
       mkdir($dispatcherDir, 0755, true);
     }

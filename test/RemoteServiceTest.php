@@ -41,18 +41,6 @@ class RemoteServiceTest extends \PHPUnit_Framework_TestCase {
     $info = new RemoteService('BassoonTest\Mock\BadRemoteServiceImpl');
   }
 
-  public function testOutputLocations() {
-    $info = new RemoteService('BassoonTest\Mock\RemoteServiceImpl');
-
-    $this->assertEquals(__DIR__ . '/Mock/gen/js/BassoonTest_Mock_RemoteServiceImpl.js',
-      $info->getProxyPath(),
-      'Invalid proxy location for remote service');
-
-    $this->assertEquals(__DIR__ . '/Mock/gen/ajx/BassoonTest_Mock_RemoteServiceImpl',
-      $info->getServicePath(),
-      'Invalid dispatcher location for remote service');
-  }
-
   public function testMethods() {
     $info = new RemoteService('BassoonTest\Mock\RemoteServiceImpl');
 

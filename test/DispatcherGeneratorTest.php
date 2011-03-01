@@ -31,37 +31,11 @@ require_once __DIR__ . '/test-common.php';
  */
 class DispatcherGeneratorTest extends \PHPUnit_Framework_TestCase {
     
-  protected function setUp() {
-    // Clean up the output directory for the mock remote service
-    $outputPath = __DIR__ . '/Mock/gen/ajx';
-
-    if (file_exists($outputPath)) {
-      $dirIter = new RecursiveDirectoryIterator($outputPath);
-      $files = new RecursiveIteratorIterator($dirIter,
-        RecursiveIteratorIterator::CHILD_FIRST);
-
-      foreach ($files AS $file) {
-        echo $file->getRealPath() . "\n";
-        /*
-        if ($file->isDir()) {
-          rmdir($file->getRealPath());
-        } else {
-          unlink($file->getRealPath());
-        }
-        */
-      }
-
-      // The SPL iterator won't include the parent directory as part of
-      // the iteration so we'll manually remove it here.
-//      rmdir($outputPath);
-    }
-  }
-
   public function testFilesCreatedOutput() {
     $info = new RemoteService('BassoonTest\Mock\RemoteServiceImpl');
 
     $generator = new DispatcherGenerator($info);
-    $generator->generate();
+    $generator->generate(__DIR__ . '/Mock/gen');
 
     // Make sure that the output directory was created and that a script for
     // handling each method of the service was created

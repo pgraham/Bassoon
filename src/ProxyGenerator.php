@@ -1,5 +1,4 @@
 <?php
-namespace Bassoon;
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -12,14 +11,18 @@ namespace Bassoon;
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package Bassoon
+ * @package bassoon
  */
+namespace Bassoon;
+
+use \SplFileObject;
+
 /**
  * This class generates the client-side proxy for a single RemoteService
  * implementation.
  *
  * @author Philip Graham <philip @lightbox.org>
- * @package Bassoon
+ * @package bassoon
  */
 class ProxyGenerator {
 
@@ -29,15 +32,16 @@ class ProxyGenerator {
     $this->_srvc = $srvc;
   }
 
-  public function generate() {
+  public function generate($outputPath) {
     $template = new Template\Proxy($this->_srvc);
 
-    $proxyPath = $this->_srvc->getProxyPath();
-    $proxyDir = dirname($proxyPath);
+    $proxyDir = $outputPath . '/js';
     if (!file_exists($proxyDir)) {
       mkdir($proxyDir,  0755, true);
     }
-    $file = new \SplFileObject($proxyPath, 'w');
+
+    $proxyPath = $proxyDir . $this->_srvc->getName() . '.js';
+    $file = new SplFileObject($proxyPath, 'w');
     $file->fwrite($template);
   }
 }

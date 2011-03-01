@@ -33,7 +33,7 @@ class DispatcherTemplateTest extends \PHPUnit_Framework_TestCase {
 
     $expectedBase = "<?php\n"
       . "require_once '{$info->getServiceDefinitionPath()}';\n"
-      . "\$s=new {$info->getName()}();\n";
+      . "\$s=new {$info->getServiceClass()}();\n";
 
     foreach ($info->getMethods() AS $method) {
       $expected = '';

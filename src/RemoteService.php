@@ -76,14 +76,8 @@ class RemoteService {
   /* List of public methods to be provided by the service. */
   private $_methods;
 
-  /* Path to the file where thie proxy is generated */
-  private $_proxyPath;
-
   /* Web accessible path to the service proxy */
   private $_proxyWeb;
-
-  /* Path to the directory where the dispatcher will be generated. */
-  private $_srvcPath;
 
   /*
    * The name of the service.  For namespaced classes '\' will be replace with
@@ -142,9 +136,6 @@ class RemoteService {
     }
     $docWrite = str_replace('__DOC__', $docRoot, $docWrite);
     $docWrite = str_replace('__DIR__', $classDir, $docWrite);
-
-    $this->_proxyPath = $docWrite . '/js/' . $srvcName . '.js';
-    $this->_srvcPath  = $docWrite . '/ajx/' . $srvcName;
 
     if (strpos($docWrite, $docRoot) !== false) {
       // TODO - This branch needs some clean up and explanations of how the path
@@ -214,15 +205,6 @@ class RemoteService {
   }
 
   /**
-   * Getter for the path to the service proxy.
-   *
-   * @return string The path to generated proxy
-   */
-  public function getProxyPath() {
-    return $this->_proxyPath;
-  }
-
-  /**
    * Getter for the service proxy's web accessible path.
    *
    * @return string The web accessible path to the service proxy
@@ -247,15 +229,6 @@ class RemoteService {
    */
   public function getServiceDefinitionPath() {
     return $this->_class->getFileName();
-  }
-
-  /**
-   * Getter for the path to the service dispatcher.
-   *
-   * @return string The path the generated dispatcher
-   */
-  public function getServicePath() {
-    return $this->_srvcPath;
   }
 
   /**

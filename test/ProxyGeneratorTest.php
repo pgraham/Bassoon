@@ -31,35 +31,11 @@ require_once __DIR__ . '/test-common.php';
  */
 class ProxyGeneratorTest extends \PHPUnit_Framework_TestCase {
 
-  protected function setUp() {
-    // Clean up the output directory forthe mock service's proxy
-    $outputPath = __DIR__ .'/Mock/gen/js';
-
-    if (file_exists($outputPath)) {
-      $dirIter = new RecursiveDirectoryIterator($outputPath);
-      $files = new RecursiveIteratorIterator($dirIter,
-        RecursiveIteratorIterator::CHILD_FIRST);
-
-      foreach ($files as $file) {
-        echo $file->getRealPath();
-        if ($file->isDir()) {
-          rmdir($file->getRealPath());
-        } else {
-          unlink($file->getRealPath());
-        }
-      }
-
-      // The SPL iterator won't include the parent directory as part of
-      // the iteration so we'll manually remove it here.
-      rmdir($outputPath);
-    }
-  }
-
   public function testProxyGeneratorOutput() {
     $info = new RemoteService('BassoonTest\Mock\RemoteServiceImpl');
 
     $generator = new ProxyGenerator($info);
-    $generator->generate();
+    $generator->generate(__DIR__ . '/Mock/gen');
 
     // Make sure that the output directory was created and that a script for
     // invoking the service from the clientwas generated

@@ -1,1 +1,3 @@
 - Update generators to use reed\generator\CodeTemplateLoader
+- Refactor to eliminate dependency in reed\Config
+- Update generators to use reed\util\ReflectionHelper::getAnnotations(...)
