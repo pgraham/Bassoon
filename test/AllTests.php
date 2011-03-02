@@ -29,9 +29,7 @@ class AllTests {
         $suite = new \PHPUnit_Framework_TestSuite('Bassoon Tests');
 
         $suite->addTestSuite('BassoonTest\DispatcherGeneratorTest');
-        $suite->addTestSuite('BassoonTest\DispatcherTemplateTest');
         $suite->addTestSuite('BassoonTest\ProxyGeneratorTest');
-        $suite->addTestSuite('BassoonTest\ProxyTemplateTest');
         $suite->addTestSuite('BassoonTest\RemoteServiceTest');
 
         return $suite;

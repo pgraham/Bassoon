@@ -18,8 +18,6 @@ namespace Bassoon;
 use ReflectionClass;
 use ReflectionException;
 
-use \reed\Config;
-
 /**
  * This class encapsulates information about the generated code for the given
  * RemoteService implementation.
@@ -76,17 +74,11 @@ class RemoteService {
   /* List of public methods to be provided by the service. */
   private $_methods;
 
-  /* Web accessible path to the service proxy */
-  private $_proxyWeb;
-
   /*
    * The name of the service.  For namespaced classes '\' will be replace with
    * '_'
    */
   private $_srvcName;
-
-  /* Web accessible path to the service dispatcher */
-  private $_srvcWeb;
 
 
   /**
@@ -124,38 +116,6 @@ class RemoteService {
     // TODO - Allow service name to be specified using an Annotation
     $srvcName = str_replace('\\', '_', $class->getName());
     $this->_srvcName = $srvcName;
-
-    // Determine path information
-    $classDir = dirname($class->getFileName());
-    $docRoot = Config::getDocumentRoot();
-    $webRoot = Config::getWebSiteRoot();
-
-    $docWrite = self::getAnnotation($docCmt, self::$ANNO_OUTPUT_DIR);
-    if ($docWrite === null) {
-      $docWrite = Config::getWebWritableDir();
-    }
-    $docWrite = str_replace('__DOC__', $docRoot, $docWrite);
-    $docWrite = str_replace('__DIR__', $classDir, $docWrite);
-
-    if (strpos($docWrite, $docRoot) !== false) {
-      // TODO - This branch needs some clean up and explanations of how the path
-      //        manipulation is intended to work
-      $replaceStr = $docRoot;
-      if (substr($webRoot, -1) == '/') {
-        $replaceStr . '/';
-      } else {
-        $webRoot .= '/';
-      }
-      $webWrite = $webRoot . str_replace($replaceStr, '', $docWrite);
-
-    // If the web writable dir is not beneath the doc root, output the web path as
-    // a full path
-    } else {
-      $webWrite = $docWrite;
-    }
-
-    $this->_proxyWeb = $webWrite . '/js/' . $srvcName . '.js';
-    $this->_srvcWeb  = $webWrite . '/ajx/' . $srvcName;
 
     // Annotations -- CSRF token
     $csrfToken = self::getAnnotation($docCmt, self::$ANNO_CSRF_TOKEN);
@@ -205,15 +165,6 @@ class RemoteService {
   }
 
   /**
-   * Getter for the service proxy's web accessible path.
-   *
-   * @return string The web accessible path to the service proxy
-   */
-  public function getProxyWebPath() {
-    return $this->_proxyWeb;
-  }
-
-  /**
    * Getter for the service's class name.
    *
    * @return string
@@ -229,14 +180,5 @@ class RemoteService {
    */
   public function getServiceDefinitionPath() {
     return $this->_class->getFileName();
-  }
-
-  /**
-   * Getter for the service dispatcher's web accessible path.
-   *
-   * @return string The web accessible path to the service dispatcher
-   */
-  public function getServiceWebPath() {
-    return $this->_srvcWeb;
   }
 }
