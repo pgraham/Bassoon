@@ -30,9 +30,9 @@ class AllTests {
     public static function suite() {
         $suite = new TestSuite('Bassoon Tests');
 
-        $suite->addTestSuite('BassoonTest\DispatcherGeneratorTest');
-        $suite->addTestSuite('BassoonTest\ProxyGeneratorTest');
-        $suite->addTestSuite('BassoonTest\RemoteServiceTest');
+        $suite->addTestSuite('bassoon\test\DispatcherGeneratorTest');
+        $suite->addTestSuite('bassoon\test\ProxyGeneratorTest');
+        $suite->addTestSuite('bassoon\test\RemoteServiceTest');
 
         return $suite;
     }
