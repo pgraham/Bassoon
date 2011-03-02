@@ -1,5 +1,4 @@
 <?php
-namespace BassoonTest;
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -12,38 +11,36 @@ namespace BassoonTest;
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package Bassoon_Test
+ * @package bassoon/test
  */
+namespace bassoon\test;
 /**
  * Autoloader for Bassoon test cases and mock classes
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package Bassoon_Test
+ * @package bassoon/test
  */
 class Autoloader {
 
-    /* This is the base path where the Bassoon_* test cases are found. */
-    public static $basePath = __DIR__;
+  /* This is the base path where the Bassoon_* test cases are found. */
+  public static $basePath = __DIR__;
 
-    /**
-     * Autoload function for the Bassoon_* test cases
-     *
-     * @param string - the name of the test case to load
-     */
-    public static function loadClass($className) {
-        $pathComponents = explode('\\', $className);
-
-        // Make sure we're in the right package
-        $base = array_shift($pathComponents);
-        if ($base != 'BassoonTest') {
-            return;
-        }
-
-        $logicalPath = implode('/', $pathComponents);
-        $fullPath = self::$basePath.'/'.$logicalPath.'.php';
-        if (file_exists($fullPath)) {
-            require_once $fullPath;
-        }
+  /**
+   * Autoload function for the Bassoon_* test cases
+   *
+   * @param string - the name of the test case to load
+   */
+  public static function loadClass($className) {
+    // Make sure this is a bassoon test class
+    if (substr($className, 0, 13) != 'bassoon\\test\\') {
+      return;
     }
+
+    $logicalPath = str_replace('\\', '/', substr($className, 13));
+    $fullPath = self::$basePath.'/'.$logicalPath.'.php';
+    if (file_exists($fullPath)) {
+      require_once $fullPath;
+    }
+  }
 }
-spl_autoload_register(array('BassoonTest\Autoloader', 'loadClass'));
+spl_autoload_register(array('bassoon\test\Autoloader', 'loadClass'));

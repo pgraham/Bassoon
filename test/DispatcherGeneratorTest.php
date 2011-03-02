@@ -1,13 +1,4 @@
 <?php
-namespace BassoonTest;
-
-use \RecursiveDirectoryIterator;
-use \RecursiveIteratorIterator;
-
-use \Bassoon\DispatcherGenerator;
-use \Bassoon\GeneratorPathInfo;
-use \Bassoon\RemoteService;
-
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -20,8 +11,19 @@ use \Bassoon\RemoteService;
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package Bassoon_Test
+ * @package bassoon/test
  */
+namespace bassoon\test;
+namespace BassoonTest;
+
+use \RecursiveDirectoryIterator;
+use \RecursiveIteratorIterator;
+
+use \Bassoon\DispatcherGenerator;
+use \Bassoon\GeneratorPathInfo;
+use \Bassoon\RemoteService;
+
+use \PHPUnit_Framework_TestCase as TestCase;
 
 require_once __DIR__ . '/test-common.php';
 
@@ -29,20 +31,20 @@ require_once __DIR__ . '/test-common.php';
  * This class tests the Bassoon_DispatcherGenerator class.
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package Bassoon_Test
+ * @package bassoon/test
  */
-class DispatcherGeneratorTest extends \PHPUnit_Framework_TestCase {
+class DispatcherGeneratorTest extends TestCase {
     
   public function testFilesCreatedOutput() {
-    $info = new RemoteService('BassoonTest\Mock\RemoteServiceImpl');
-    $pathInfo = new GeneratorPathInfo(__DIR__ . '/Mock/gen', '/gen');
+    $info = new RemoteService('bassoon\test\mock\RemoteServiceImpl');
+    $pathInfo = new GeneratorPathInfo(__DIR__ . '/mock/gen', '/gen');
 
     $generator = new DispatcherGenerator($info);
     $generator->generate($pathInfo);
 
     // Make sure that the output directory was created and that a script for
     // handling each method of the service was created
-    $outputPath = __DIR__ . '/Mock/gen/ajx/' . $info->getName();
+    $outputPath = __DIR__ . '/mock/gen/ajx/' . $info->getName();
     $this->assertTrue(file_exists($outputPath),
       'Dispatcher generation did not create proper output directory');
         

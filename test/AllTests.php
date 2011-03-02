@@ -1,5 +1,4 @@
 <?php
-namespace BassoonTest;
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -12,8 +11,11 @@ namespace BassoonTest;
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package BassoonTest
+ * @package bassoon/test
  */
+namespace bassoon\test;
+
+use \PHPUnit_Framework_TestSuite as TestSuite;
 
 require_once __DIR__ . '/test-common.php';
 
@@ -21,12 +23,12 @@ require_once __DIR__ . '/test-common.php';
  * This class builds the suite of all Bassoon test cases.
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package Bassoon_Test
+ * @package bassoon/test
  */
 class AllTests {
 
     public static function suite() {
-        $suite = new \PHPUnit_Framework_TestSuite('Bassoon Tests');
+        $suite = new TestSuite('Bassoon Tests');
 
         $suite->addTestSuite('BassoonTest\DispatcherGeneratorTest');
         $suite->addTestSuite('BassoonTest\ProxyGeneratorTest');

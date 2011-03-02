@@ -13,7 +13,7 @@
  * @license http://www.opensource.org/licenses/bsd-license.php
  * @package bassoon/test
  */
-namespace BassoonTest;
+namespace bassoon\test;
 
 use \RecursiveDirectoryIterator;
 use \RecursiveIteratorIterator;
@@ -22,6 +22,7 @@ use \Bassoon\GeneratorPathInfo;
 use \Bassoon\ProxyGenerator;
 use \Bassoon\RemoteService;
 
+use \PHPUnit_Framework_TestCase as TestCase;
 
 require_once __DIR__ . '/test-common.php';
 
@@ -31,18 +32,18 @@ require_once __DIR__ . '/test-common.php';
  * @author Philip Graham <philip@lightbox.org>
  * @package bassoon/test
  */
-class ProxyGeneratorTest extends \PHPUnit_Framework_TestCase {
+class ProxyGeneratorTest extends TestCase {
 
   public function testProxyGeneratorOutput() {
-    $info = new RemoteService('BassoonTest\Mock\RemoteServiceImpl');
-    $pathInfo = new GeneratorPathInfo(__DIR__ . '/Mock/gen', '/gen');
+    $info = new RemoteService('bassoon\test\mock\RemoteServiceImpl');
+    $pathInfo = new GeneratorPathInfo(__DIR__ . '/mock/gen', '/gen');
 
     $generator = new ProxyGenerator($info);
     $generator->generate($pathInfo);
 
     // Make sure that the output directory was created and that a script for
     // invoking the service from the clientwas generated
-    $outputPath = __DIR__ . '/Mock/gen/js/' . $info->getName() . '.js';
+    $outputPath = __DIR__ . '/mock/gen/js/' . $info->getName() . '.js';
     $this->assertTrue(file_exists($outputPath),
       'Proxy generation did not create proxy file in correct location');
   }

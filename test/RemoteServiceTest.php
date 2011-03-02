@@ -1,7 +1,4 @@
 <?php
-namespace BassoonTest;
-
-use \Bassoon\RemoteService;
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -14,8 +11,13 @@ use \Bassoon\RemoteService;
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package BassoonTest
+ * @package bassoon/test
  */
+namespace bassoon\test;
+
+use \Bassoon\RemoteService;
+
+use \PHPUnit_Framework_TestCase as TestCase;
 
 require_once __DIR__ . '/test-common.php';
 
@@ -23,26 +25,26 @@ require_once __DIR__ . '/test-common.php';
  * This class tests the RemoteService test.
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package BassoonTest
+ * @package bassoon/test
  */
-class RemoteServiceTest extends \PHPUnit_Framework_TestCase {
+class RemoteServiceTest extends TestCase {
 
   /**
-   * @expectedException Bassoon\Exception
+   * @expectedException bassoon\Exception
    */
   public function testNotAClass() {
     $info = new RemoteService('NotAClass');
   }
 
   /**
-   * @expectedException Bassoon\Exception
+   * @expectedException bassoon\Exception
    */
   public function testRemoteServiceNoAnnotations() {
-    $info = new RemoteService('BassoonTest\Mock\BadRemoteServiceImpl');
+    $info = new RemoteService('bassoon\test\mock\BadRemoteServiceImpl');
   }
 
   public function testMethods() {
-    $info = new RemoteService('BassoonTest\Mock\RemoteServiceImpl');
+    $info = new RemoteService('bassoon\test\mock\RemoteServiceImpl');
 
     $expected = array(
       'doNoArgsVoid',

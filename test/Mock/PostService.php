@@ -1,5 +1,4 @@
 <?php
-namespace BassoonTest\Mock;
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -12,15 +11,15 @@ namespace BassoonTest\Mock;
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package Bassoon_Test
+ * @package bassoon/test/mock
  */
+namespace bassoon\test\mock;
+
 /**
  * Mock remote service that declares methods as using the post method.
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package Bassoon_Test
- *
- * @outputPath __DIR__/gen
+ * @package bassoon/test/mock
  */
 class PostService {
 

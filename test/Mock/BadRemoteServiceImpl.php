@@ -1,5 +1,4 @@
 <?php
-namespace BassoonTest\Mock;
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -12,16 +11,18 @@ namespace BassoonTest\Mock;
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package Bassoon_Test
+ * @package bassoon/test/mock
  */
+namespace bassoon\test\mock;
+
 /**
  * This class defines a constructor with 1 required parameter to test that
  * it cannot be used as a remote service definition.
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package Bassoon_Test
+ * @package bassoon/test/mock
  */
 class BadRemoteServiceImpl {
 
-    public function __construct($param) {}
+  public function __construct($param) {}
 }

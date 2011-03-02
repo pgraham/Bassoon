@@ -1,5 +1,4 @@
 <?php
-namespace BassoonTest\Mock;
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -12,13 +11,15 @@ namespace BassoonTest\Mock;
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package Bassoon_Test
+ * @package bassoon/test/mock
  */
+namespace bassoon\test\mock;
+
 /**
  * Mock remote service used for testing.
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package Bassoon_Test
+ * @package bassoon/test/mock
  *
  * @outputPath __DIR__/gen
  */
