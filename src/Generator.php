@@ -33,25 +33,35 @@ class Generator {
   /**
    * Constructor.
    *
-   * @param string - the name of the class to generate service for.
+   * @param string|RemoteService $serviceDef The name of the class to generate
+   *   service for.
    */
-  public function __construct($srvcDef) {
-    if ($srvcDef instanceof RemoteService) {
-      $this->_srvc = $srvcDef;
+  public function __construct($serviceDef) {
+    if ($serviceDef instanceof RemoteService) {
+      $this->_srvc = $serviceDef;
     } else {
-      $this->_srvc = new RemoteService($srvcDef);
+      $this->_srvc = new RemoteService($serviceDef);
     }
   }
 
   /**
    * This method generates the server side dispatcher and client-side proxy
    * for the service.
+   *
+   * @param string $outputPath Path where generated files are to be output.
+   * @param string $webOutputPath Web accessible path for the given output path.
+   * @return GeneratorPathInfo Object encapsulating paths for the generated
+   *   artifacts.
    */
-  public function generate($outputPath) {
+  public function generate($outputPath, $webOutputPath) {
+    $pathInfo = new GeneratorPathInfo($outputPath, $webOutputPath);
+
     $proxyGenerator = new ProxyGenerator($this->_srvc);
-    $proxyGenerator->generate($outputPath);
+    $proxyGenerator->generate($pathInfo);
 
     $dispatcherGenerator = new DispatcherGenerator($this->_srvc);
-    $dispatcherGenerator->generate($outputPath);
+    $dispatcherGenerator->generate($pathInfo);
+
+    return $pathInfo;
   }
 }

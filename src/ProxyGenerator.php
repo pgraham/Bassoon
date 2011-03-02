@@ -17,6 +17,8 @@ namespace Bassoon;
 
 use \SplFileObject;
 
+use \Bassoon\template\ProxyBuilder;
+
 /**
  * This class generates the client-side proxy for a single RemoteService
  * implementation.
@@ -32,15 +34,15 @@ class ProxyGenerator {
     $this->_srvc = $srvc;
   }
 
-  public function generate($outputPath) {
-    $template = new Template\Proxy($this->_srvc);
-
-    $proxyDir = $outputPath . '/js';
+  public function generate(GeneratorPathInfo $pathInfo) {
+    $proxyDir = dirname($pathInfo->getProxyPath($this->_srvc->getName()));
     if (!file_exists($proxyDir)) {
       mkdir($proxyDir,  0755, true);
     }
 
-    $proxyPath = $proxyDir . $this->_srvc->getName() . '.js';
+    $template = ProxyBuilder::build($this->_srvc, $pathInfo);
+
+    $proxyPath = $pathInfo->getProxyPath($this->_srvc->getName());
     $file = new SplFileObject($proxyPath, 'w');
     $file->fwrite($template);
   }

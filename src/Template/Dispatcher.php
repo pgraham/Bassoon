@@ -18,8 +18,6 @@ namespace Bassoon\Template;
 use \Bassoon\RemoteServiceMethod;
 use \Bassoon\Template;
 
-use \reed\Config;
-
 /**
  * This class encapsulates the code template for the dispatcher for a service
  * method.
@@ -108,7 +106,7 @@ class Dispatcher implements Template {
     $lines[] = "}catch(Exception $exVar){";
     $lines[] = " header('HTTP/1.1 500 Internal Server Error');";
 
-    if (Config::isDebug()) {
+    if (defined('DEBUG') && DEBUG === true) {
       $lines[] = " echo json_encode(array('msg'=>{$exVar}->__toString()));";
     }
     $lines[] = "}";

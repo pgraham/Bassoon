@@ -17,6 +17,8 @@ namespace Bassoon;
 
 use \SplFileObject;
 
+use \Bassoon\template\DispatcherBuilder;
+
 /**
  * This class generate the server-side dispatcher for a a single
  * Bassoon_RemoteService implementation.
@@ -32,14 +34,14 @@ class DispatcherGenerator {
     $this->_srvc = $srvc;
   }
 
-  public function generate($outputPath) {
-    $dispatcherDir = $outputPath . '/ajx/' . $this->_srvc->getName();
+  public function generate(GeneratorPathInfo $pathInfo) {
+    $dispatcherDir = $pathInfo->getDispatcherPath($this->_srvc->getName());
     if (!is_dir($dispatcherDir)) {
       mkdir($dispatcherDir, 0755, true);
     }
 
     foreach ($this->_srvc->getMethods() AS $method) {
-      $template = new Template\Dispatcher($method);
+      $template = DispatcherBuilder::build($this->_srvc, $method, $pathInfo);
 
       $fileName = $dispatcherDir.'/'.$method->getName().'.php';
       $file = new SplFileObject($fileName, 'w');

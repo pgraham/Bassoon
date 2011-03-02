@@ -1,8 +1,4 @@
 <?php
-namespace Bassoon\Template;
-
-use \Bassoon\Template;
-use \Bassoon\RemoteService;
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -15,13 +11,18 @@ use \Bassoon\RemoteService;
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package Bassoon
+ * @package bassoon
  */
+namespace Bassoon\Template;
+
+use \Bassoon\Template;
+use \Bassoon\RemoteService;
+
 /**
  * This class encapsulates the actual code that is output for a service's proxy.
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package Bassoon
+ * @package bassoon
  */
 class Proxy implements Template {
 

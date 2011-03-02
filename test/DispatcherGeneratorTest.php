@@ -5,7 +5,9 @@ use \RecursiveDirectoryIterator;
 use \RecursiveIteratorIterator;
 
 use \Bassoon\DispatcherGenerator;
+use \Bassoon\GeneratorPathInfo;
 use \Bassoon\RemoteService;
+
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -33,9 +35,10 @@ class DispatcherGeneratorTest extends \PHPUnit_Framework_TestCase {
     
   public function testFilesCreatedOutput() {
     $info = new RemoteService('BassoonTest\Mock\RemoteServiceImpl');
+    $pathInfo = new GeneratorPathInfo(__DIR__ . '/Mock/gen', '/gen');
 
     $generator = new DispatcherGenerator($info);
-    $generator->generate(__DIR__ . '/Mock/gen');
+    $generator->generate($pathInfo);
 
     // Make sure that the output directory was created and that a script for
     // handling each method of the service was created

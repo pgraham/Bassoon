@@ -1,11 +1,4 @@
 <?php
-namespace BassoonTest;
-
-use \RecursiveDirectoryIterator;
-use \RecursiveIteratorIterator;
-
-use \Bassoon\ProxyGenerator;
-use \Bassoon\RemoteService;
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -18,8 +11,17 @@ use \Bassoon\RemoteService;
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package BassoonTest
+ * @package bassoon/test
  */
+namespace BassoonTest;
+
+use \RecursiveDirectoryIterator;
+use \RecursiveIteratorIterator;
+
+use \Bassoon\GeneratorPathInfo;
+use \Bassoon\ProxyGenerator;
+use \Bassoon\RemoteService;
+
 
 require_once __DIR__ . '/test-common.php';
 
@@ -27,15 +29,16 @@ require_once __DIR__ . '/test-common.php';
  * This class tests the ProxyGenerator class.
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package BassoonTest
+ * @package bassoon/test
  */
 class ProxyGeneratorTest extends \PHPUnit_Framework_TestCase {
 
   public function testProxyGeneratorOutput() {
     $info = new RemoteService('BassoonTest\Mock\RemoteServiceImpl');
+    $pathInfo = new GeneratorPathInfo(__DIR__ . '/Mock/gen', '/gen');
 
     $generator = new ProxyGenerator($info);
-    $generator->generate(__DIR__ . '/Mock/gen');
+    $generator->generate($pathInfo);
 
     // Make sure that the output directory was created and that a script for
     // invoking the service from the clientwas generated
