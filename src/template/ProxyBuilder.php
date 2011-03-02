@@ -42,7 +42,7 @@ class ProxyBuilder {
     $templateValues = Array
     (
       'serviceName'    => $serviceName,
-      'serviceWebpath' => $pathInfo->getServiceWebPath($serviceName),
+      'serviceWebPath' => $pathInfo->getServiceWebPath($serviceName),
       'methods'        => Array()
     );
 
