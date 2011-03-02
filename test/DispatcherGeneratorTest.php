@@ -14,7 +14,6 @@
  * @package bassoon/test
  */
 namespace bassoon\test;
-namespace BassoonTest;
 
 use \RecursiveDirectoryIterator;
 use \RecursiveIteratorIterator;
