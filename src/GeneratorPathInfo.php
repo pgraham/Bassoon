@@ -78,6 +78,18 @@ class GeneratorPathInfo {
   }
 
   /**
+   * Get the web accessible path to the service proxy.
+   *
+   * @param string $serviceName The name of the service for which a path is
+   *   desired.
+   * @return string Web accessible path to the client proxy for the service with
+   *   the given name.
+   */
+  public function getProxyWebPath($serviceName) {
+    return $this->_outputWebPath . '/js/' . $serviceName . '.js';
+  }
+
+  /**
    * Get the web accessible path to the service.
    *
    * @param string $serviceName The name of the service for which a path is
