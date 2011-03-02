@@ -13,15 +13,15 @@
  * @license http://www.opensource.org/licenses/bsd-license.php
  * @package bassoon
  */
-namespace Bassoon;
+namespace bassoon;
 
 use \SplFileObject;
 
-use \Bassoon\template\DispatcherBuilder;
+use \bassoon\template\DispatcherBuilder;
 
 /**
  * This class generate the server-side dispatcher for a a single
- * Bassoon_RemoteService implementation.
+ * RemoteService.
  *
  * @author Philip Graham <philip@zeptech.ca>
  * @package bassoon

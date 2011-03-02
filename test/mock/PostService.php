@@ -23,8 +23,8 @@ namespace bassoon\test\mock;
  */
 class PostService {
 
-    /**
-     * @requestType post
-     */
-    public function postParams($p1, $p2) {}
+  /**
+   * @requestType post
+   */
+  public function postParams($p1, $p2) {}
 }

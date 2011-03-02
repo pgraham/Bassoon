@@ -25,54 +25,45 @@ namespace bassoon\test\mock;
  */
 class RemoteServiceImpl {
 
-    public function doNoArgsVoid() {}
+  public function doNoArgsVoid() {}
 
-    public function doNoArgsScalar() {
-        return 1;
-    }
+  public function doNoArgsScalar() {
+    return 1;
+  }
 
-    public function doNoArgsArray() {
-        return array('val1', 'val2', 'val3', 4, 5, 6);
-    }
+  public function doNoArgsArray() {
+    return array('val1', 'val2', 'val3', 4, 5, 6);
+  }
 
-    public function doNoArgsObject() {
-        return array(
-            'prop1' => 'val1',
-            'prop2' => 'val2',
-            'prop3' => 'val3');
-    }
+  public function doNoArgsObject() {
+    return array('prop1' => 'val1', 'prop2' => 'val2', 'prop3' => 'val3');
+  }
 
-    public function doOneArgVoid($p1) {}
+  public function doOneArgVoid($p1) {}
 
-    public function doOneArgScalar($p1) {
-        return 1;
-    }
+  public function doOneArgScalar($p1) {
+    return 1;
+  }
 
-    public function doOneArgArray($p1) {
-        return array('val1', 'val2', 'val3', 4, 5, 6);
-    }
+  public function doOneArgArray($p1) {
+    return array('val1', 'val2', 'val3', 4, 5, 6);
+  }
 
-    public function doOneArgObject($p1) {
-        return array(
-            'prop1' => 'val1',
-            'prop2' => 'val2',
-            'prop3' => 'val3');
-    }
+  public function doOneArgObject($p1) {
+    return array('prop1' => 'val1', 'prop2' => 'val2', 'prop3' => 'val3');
+  }
 
-    public function doMultipleArgsVoid($p1, $p2, $p3) {}
+  public function doMultipleArgsVoid($p1, $p2, $p3) {}
 
-    public function doMultipleArgsScalar($p1, $p2, $p3) {
-        return 1;
-    }
+  public function doMultipleArgsScalar($p1, $p2, $p3) {
+    return 1;
+  }
 
-    public function doMultipleArgsArray($p1, $p2, $p3) {
-        return array('val1', 'val2', 'val3', 4, 5, 6);
-    }
+  public function doMultipleArgsArray($p1, $p2, $p3) {
+    return array('val1', 'val2', 'val3', 4, 5, 6);
+  }
 
-    public function doMultipleArgsObject($p1, $p2, $p3) {
-        return array(
-            'prop1' => 'val1',
-            'prop2' => 'val2',
-            'prop3' => 'val3');
-    }
+  public function doMultipleArgsObject($p1, $p2, $p3) {
+    return array('prop1' => 'val1', 'prop2' => 'val2', 'prop3' => 'val3');
+  }
 }

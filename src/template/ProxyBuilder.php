@@ -13,10 +13,10 @@
  * @license http://www.opensource.org/licenses/bsd-license.php
  * @package bassoon
  */
-namespace Bassoon\template;
+namespace bassoon\template;
 
-use \Bassoon\GeneratorPathInfo;
-use \Bassoon\RemoteService;
+use \bassoon\GeneratorPathInfo;
+use \bassoon\RemoteService;
 use \reed\generator\CodeTemplateLoader;
 
 /**

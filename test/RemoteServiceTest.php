@@ -15,7 +15,7 @@
  */
 namespace bassoon\test;
 
-use \Bassoon\RemoteService;
+use \bassoon\RemoteService;
 
 use \PHPUnit_Framework_TestCase as TestCase;
 

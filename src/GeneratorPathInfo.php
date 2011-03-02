@@ -13,7 +13,7 @@
  * @license http://www.opensource.org/licenses/bsd-license.php
  * @package bassoon
  */
-namespace Bassoon;
+namespace bassoon;
 
 /**
  * This class is used to encapsulate the path information needed for service

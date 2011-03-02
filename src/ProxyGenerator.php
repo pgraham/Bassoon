@@ -13,11 +13,11 @@
  * @license http://www.opensource.org/licenses/bsd-license.php
  * @package bassoon
  */
-namespace Bassoon;
+namespace bassoon;
 
 use \SplFileObject;
 
-use \Bassoon\template\ProxyBuilder;
+use \bassoon\template\ProxyBuilder;
 
 /**
  * This class generates the client-side proxy for a single RemoteService

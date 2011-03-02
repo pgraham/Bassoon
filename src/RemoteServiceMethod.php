@@ -13,7 +13,7 @@
  * @license http://www.opensource.org/licenses/bsd-license.php
  * @package bassoon
  */
-namespace Bassoon;
+namespace bassoon;
 
 use \reed\util\ReflectionHelper;
 /**

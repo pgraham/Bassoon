@@ -11,16 +11,16 @@
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package Bassoon
+ * @package bassoon
  */
-namespace Bassoon;
+namespace bassoon;
 
 /**
  * This class generates the server-side dispatcher and client-side proxy for a
  * single RemoteService implementation.
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package Bassoon
+ * @package bassoon
  */
 class Generator {
 

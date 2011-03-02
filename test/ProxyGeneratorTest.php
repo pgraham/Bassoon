@@ -18,9 +18,9 @@ namespace bassoon\test;
 use \RecursiveDirectoryIterator;
 use \RecursiveIteratorIterator;
 
-use \Bassoon\GeneratorPathInfo;
-use \Bassoon\ProxyGenerator;
-use \Bassoon\RemoteService;
+use \bassoon\GeneratorPathInfo;
+use \bassoon\ProxyGenerator;
+use \bassoon\RemoteService;
 
 use \PHPUnit_Framework_TestCase as TestCase;
 

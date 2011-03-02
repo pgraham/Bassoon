@@ -13,10 +13,10 @@
  * @license http://www.opensource.org/licenses/bsd-license.php
  * @package bassoon
  */
-namespace Bassoon\template;
+namespace bassoon\template;
 
-use \Bassoon\RemoteService;
-use \Bassoon\RemoteServiceMethod;
+use \bassoon\RemoteService;
+use \bassoon\RemoteServiceMethod;
 use \reed\generator\CodeTemplateLoader;
 
 /**

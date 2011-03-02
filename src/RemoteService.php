@@ -11,9 +11,9 @@
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package Bassoon
+ * @package bassoon
  */
-namespace Bassoon;
+namespace bassoon;
 
 use ReflectionClass;
 use ReflectionException;
@@ -39,7 +39,7 @@ use \reed\util\ReflectionHelper;
  * is located.
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package Bassoon
+ * @package bassoon
  */
 class RemoteService {
 

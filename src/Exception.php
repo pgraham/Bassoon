@@ -1,5 +1,4 @@
 <?php
-namespace Bassoon;
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -12,14 +11,16 @@ namespace Bassoon;
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package Bassoon
+ * @package bassoon
  */
+namespace bassoon;
+
 /**
  * Bassoon's extension of the Exception class.  This class does implement any of
  * its own functionality but instead provides another class of exception for
  * catch blocks.
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package Bassoon
+ * @package bassoon
  */
 class Exception extends \Exception {}
