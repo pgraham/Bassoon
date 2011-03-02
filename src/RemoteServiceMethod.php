@@ -1,5 +1,4 @@
 <?php
-namespace Bassoon;
 /**
  * =============================================================================
  * Copyright (c) 2010, Philip Graham
@@ -12,26 +11,20 @@ namespace Bassoon;
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package Bassoon
+ * @package bassoon
  */
+namespace Bassoon;
+
+use \reed\util\ReflectionHelper;
 /**
  * This class encapsulates information about the generated code for the given
  * RemoteService implementation
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package Bassoon
+ * @package bassoon
  */
 class RemoteServiceMethod {
 
-  public static $ANNO_REQUEST_TYPE  = '@requestType';
-  public static $ANNO_RESPONSE_TYPE = '@returnType';
-
-  /*
-   * =========================================================================
-   * Instance
-   * =========================================================================
-   */
-    
   /* ReflectionMethod represented by the instance */
   private $_method;
 
@@ -50,22 +43,22 @@ class RemoteServiceMethod {
    * @param ReflectionMethod
    */
   public function __construct(\ReflectionMethod $method, RemoteService $srvc) {
+    $docComment = $method->getDocComment();
+    $annotations = ReflectionHelper::getAnnotations($docComment);
+
     $this->_method = $method;
     $this->_srvc = $srvc;
 
-    $rqstType = RemoteService::getAnnotation($method->getDocComment(),
-      self::$ANNO_REQUEST_TYPE);
-
-    if ($rqstType === null) {
-      $rqstType = 'get';
+    $rqstType = 'get';
+    if (isset($annotations['requesttype'])) {
+      $rqstType = $annotations['requesttype'];
     }
     $this->_rqstType = $rqstType;
 
-    $rspsType = RemoteService::getAnnotation($method->getDocComment(),
-      self::$ANNO_RESPONSE_TYPE);
-
-    if ($rspsType === null) {
-      $rspsType = 'json';
+  
+    $rspsType = 'json';
+    if (isset($annotations['responsetype'])) {
+      $rspsType = $annotations['responsetype'];
     }
     $this->_rspsType = $rspsType;
   }

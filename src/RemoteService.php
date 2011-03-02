@@ -18,6 +18,8 @@ namespace Bassoon;
 use ReflectionClass;
 use ReflectionException;
 
+use \reed\util\ReflectionHelper;
+
 /**
  * This class encapsulates information about the generated code for the given
  * RemoteService implementation.
@@ -40,27 +42,6 @@ use ReflectionException;
  * @package Bassoon
  */
 class RemoteService {
-
-  public static $ANNO_OUTPUT_DIR   = '@outputPath';
-  public static $ANNO_CSRF_TOKEN   = '@csrfToken';
-
-  /* Returns the value of the given annotation for the given doc comment */
-  public static function getAnnotation($comment, $tag) {
-    $regexp = preg_quote($tag, '/').'\s+(.*)\s+';
-    $matches = array();
-
-    preg_match('/'.$regexp.'/U', $comment, $matches);
-    if (isset($matches[1])) {
-      return trim($matches[1]);
-    }
-    return null;
-  }
-
-  /*
-   * =========================================================================
-   * Instance
-   * =========================================================================
-   */
 
   /* ReflectionClass represented by the instance */
   private $_class;
@@ -113,14 +94,15 @@ class RemoteService {
 
     // Pull needed information out of the class
     $docCmt = $class->getDocComment();
+    $annotations = ReflectionHelper::getAnnotations($docCmt);
+
     // TODO - Allow service name to be specified using an Annotation
     $srvcName = str_replace('\\', '_', $class->getName());
     $this->_srvcName = $srvcName;
 
     // Annotations -- CSRF token
-    $csrfToken = self::getAnnotation($docCmt, self::$ANNO_CSRF_TOKEN);
-    if ($csrfToken !== null) {
-      $this->_csrfToken = $csrfToken;
+    if (isset($annotations['csrftoken'])) {
+      $this->_csrfToken = $annotations['csrftoken'];
     }
 
     // Build list of public methods provided by the class.
