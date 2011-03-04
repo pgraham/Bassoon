@@ -1,4 +1,5 @@
 <?php
+${each:requires};
 require_once '${servicePath}';
 
 $service = new ${serviceClass}();

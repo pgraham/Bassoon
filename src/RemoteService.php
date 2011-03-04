@@ -56,8 +56,13 @@ class RemoteService {
   private $_methods;
 
   /*
-   * The name of the service.  For namespaced classes '\' will be replace with
-   * '_'
+   * Files required by the service.  These will be included by the dispatcher.
+   */
+  private $_requires = Array();
+
+  /*
+   * The name of the service.  For namespaced classes '\' will be replaced with
+   * underscores.
    */
   private $_srvcName;
 
@@ -93,12 +98,49 @@ class RemoteService {
     }
 
     // Pull needed information out of the class
+    $pathRoot =  dirname($class->getFileName());
     $docCmt = $class->getDocComment();
     $annotations = ReflectionHelper::getAnnotations($docCmt);
 
-    // TODO - Allow service name to be specified using an Annotation
-    $srvcName = str_replace('\\', '_', $class->getName());
+    if (isset($annotations['service']) &&
+        isset($annotations['service']['name']))
+    {
+      $srvcName = $annotations['service']['name'];
+    } else {
+      $srvcName = str_replace('\\', '_', $class->getName());
+    }
     $this->_srvcName = $srvcName;
+
+    
+    if (isset($annotations['requires'])) {
+      if (is_array($annotations['requires'])) {
+        if (isset($annotations['requires']['files'])) {
+          $this->_requires = $annotations['requires']['files'];
+        }
+
+        if (isset($annotations['requires']['file'])) {
+          $this->_requires[] = $annotations['requires']['file'];
+        }
+      } else {
+        $this->_requires[] = $annotations['requires'];
+      }
+
+      $dirReplaced = Array();
+      foreach ($this->_requires AS $required) {
+        $dirReplaced[] = str_replace('__DIR__', $pathRoot, $required);
+      }
+      $this->_requires = $dirReplaced;
+
+      $absolute = Array();
+      foreach ($this->_requires AS $required) {
+        if (substr($required, 0, 1) != '/') {
+          $absolute[] = $pathRoot . '/' . $required;
+        } else {
+          $absolute[] = $required;
+        }
+      }
+      $this->_requires = $absolute;
+    }
 
     // Annotations -- CSRF token
     if (isset($annotations['csrftoken'])) {
@@ -144,6 +186,15 @@ class RemoteService {
    */
   public function getName() {
     return $this->_srvcName;
+  }
+
+  /**
+   * Getter for the list of files that are required by the service class.
+   *
+   * @return Array
+   */
+  public function getRequires() {
+    return $this->_requires;
   }
 
   /**

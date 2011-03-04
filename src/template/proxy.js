@@ -6,7 +6,7 @@ $.cookie = function (c) {
   }
 
   s = s + c.length + 1;
-  e = document.cookie.index(';', s);
+  e = document.cookie.indexOf(';', s);
   if (e == -1) {
     e = document.cookie.length;
   }

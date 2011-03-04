@@ -42,6 +42,11 @@ class DispatcherBuilder {
     GeneratorPathInfo $pathInfo)
 
   {
+    $requires = Array();
+    foreach ($service->getRequires() AS $file) {
+      $requires[] = "require_once '$file';";
+    }
+
     $responseType = $method->getResponseType();
     $requestType  = $method->getRequestType();
 
@@ -63,8 +68,10 @@ class DispatcherBuilder {
     (
       'DEBUG'         => defined('DEBUG') && DEBUG === true,
 
+      'requires'      => $requires,
+
       'servicePath'   => $service->getServiceDefinitionPath(),
-      'serviceClass'   => $service->getServiceClass(),
+      'serviceClass'  => $service->getServiceClass(),
       'methodName'    => $method->getName(),
       'responseType'  => $responseType,
       'requestVar'    => $requestVar,
