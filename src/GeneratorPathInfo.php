@@ -15,6 +15,8 @@
  */
 namespace bassoon;
 
+use \reed\WebSitePathInfo;
+
 /**
  * This class is used to encapsulate the path information needed for service
  * and proxy generation.  An intance of this class is created by the main
@@ -42,17 +44,9 @@ class GeneratorPathInfo {
    * @param string $outputPath
    * @param string $outputWebPath
    */
-  public function __construct($outputPath, $outputWebPath) {
-    $this->_outputPath = $outputPath;
-    $this->_outputWebPath = $outputWebPath;
-
-    if (substr($this->_outputPath, -1) == '/') {
-      $this->_outputPath = substr($this->_outputPath, 0, -1);
-    }
-
-    if (substr($this->_outputWebPath, -1) == '/') {
-      $this->_outputWebPath = substr($this->_outputWebPath, 0, -1);
-    }
+  public function __construct(WebSitePathInfo $pathInfo) {
+    $this->_outputPath = $pathInfo->getTarget();
+    $this->_outputWebPath = $pathInfo->getWebTarget();
   }
 
   /**

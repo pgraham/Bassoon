@@ -15,6 +15,8 @@
  */
 namespace bassoon;
 
+use \reed\WebSitePathInfo;
+
 /**
  * This class generates the server-side dispatcher and client-side proxy for a
  * single RemoteService implementation.
@@ -48,20 +50,19 @@ class Generator {
    * This method generates the server side dispatcher and client-side proxy
    * for the service.
    *
-   * @param string $outputPath Path where generated files are to be output.
-   * @param string $webOutputPath Web accessible path for the given output path.
+   * @param WebSitePathInfo $pathInfo
    * @return GeneratorPathInfo Object encapsulating paths for the generated
    *   artifacts.
    */
-  public function generate($outputPath, $webOutputPath) {
-    $pathInfo = new GeneratorPathInfo($outputPath, $webOutputPath);
+  public function generate(WebSitePathInfo $pathInfo) {
+    $genPathInfo = new GeneratorPathInfo($pathInfo);
 
     $proxyGenerator = new ProxyGenerator($this->_srvc);
-    $proxyGenerator->generate($pathInfo);
+    $proxyGenerator->generate($genPathInfo);
 
     $dispatcherGenerator = new DispatcherGenerator($this->_srvc);
-    $dispatcherGenerator->generate($pathInfo);
+    $dispatcherGenerator->generate($genPathInfo);
 
-    return $pathInfo;
+    return $genPathInfo;
   }
 }

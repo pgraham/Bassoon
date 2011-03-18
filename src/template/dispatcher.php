@@ -1,10 +1,14 @@
 <?php
-${each:requires};
+${each:requires as required};
+  ${required}
+${done}
 require_once '${servicePath}';
 
 $service = new ${serviceClass}();
 
-${each:getParameters}
+${each:getParameters as param}
+  ${param}
+${done}
 
 try {
   ${if:responseType=void}
