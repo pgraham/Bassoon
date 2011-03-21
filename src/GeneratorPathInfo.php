@@ -45,8 +45,8 @@ class GeneratorPathInfo {
    * @param string $outputWebPath
    */
   public function __construct(WebSitePathInfo $pathInfo) {
-    $this->_outputPath = $pathInfo->getTarget();
-    $this->_outputWebPath = $pathInfo->getWebTarget();
+    $this->_outputPath = $pathInfo->getWebTarget();
+    $this->_outputWebPath = $pathInfo->getWebAccessibleTarget();
   }
 
   /**

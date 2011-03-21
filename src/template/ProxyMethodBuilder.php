@@ -54,6 +54,9 @@ class ProxyMethodBuilder {
       $argObjProps[] = "$pName:$pName";
     }
 
+    // Add callback parameter
+    $args[] = 'cb';
+
     if ($service->getCsrfToken() !== null) {
       $pName = $service->getCsrfToken();
       $argObjProps[] = "$pName:\$.cookie('$pName')";

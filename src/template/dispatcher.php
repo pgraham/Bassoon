@@ -1,5 +1,5 @@
 <?php
-${each:requires as required};
+${each:requires as required}
   ${required}
 ${done}
 require_once '${servicePath}';
