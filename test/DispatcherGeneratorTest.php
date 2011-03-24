@@ -22,6 +22,8 @@ use \bassoon\DispatcherGenerator;
 use \bassoon\GeneratorPathInfo;
 use \bassoon\RemoteService;
 
+use \reed\WebSitePathInfo;
+
 use \PHPUnit_Framework_TestCase as TestCase;
 
 require_once __DIR__ . '/test-common.php';
@@ -35,8 +37,13 @@ require_once __DIR__ . '/test-common.php';
 class DispatcherGeneratorTest extends TestCase {
     
   public function testFilesCreatedOutput() {
+    // We're not worried about the lib or src directories for files generated
+    // by bassoon and the test are set up for the default targets so we only
+    // need to provide the fsRoot, webRoot and docRoot.
+    $webSitePathInfo = new WebSitePathInfo(__DIR__, '/gen', 'mock');
+      
     $info = new RemoteService('bassoon\test\mock\RemoteServiceImpl');
-    $pathInfo = new GeneratorPathInfo(__DIR__ . '/mock/gen', '/gen');
+    $pathInfo = new GeneratorPathInfo($webSitePathInfo);
 
     $generator = new DispatcherGenerator($info);
     $generator->generate($pathInfo);
