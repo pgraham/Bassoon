@@ -15,7 +15,7 @@
  */
 namespace bassoon;
 
-use \reed\util\ReflectionHelper;
+use \reed\reflection\ReflectionHelper;
 /**
  * This class encapsulates information about the generated code for the given
  * RemoteService implementation

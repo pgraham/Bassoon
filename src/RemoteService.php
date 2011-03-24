@@ -18,7 +18,7 @@ namespace bassoon;
 use ReflectionClass;
 use ReflectionException;
 
-use \reed\util\ReflectionHelper;
+use \reed\reflection\ReflectionHelper;
 
 /**
  * This class encapsulates information about the generated code for the given
