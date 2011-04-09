@@ -51,7 +51,11 @@ class ProxyMethodBuilder {
       $pName = $param->getName();
 
       $args[] = $pName;
-      $argObjProps[] = "$pName:$pName";
+      if ($method->getSendParameterAsJson($pName)) {
+        $argObjProps[] = "$pName:JSON.stringify($pName)";
+      } else {
+        $argObjProps[] = "$pName:$pName";
+      }
     }
 
     // Add callback parameter

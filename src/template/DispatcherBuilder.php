@@ -60,8 +60,14 @@ class DispatcherBuilder {
     $args = Array();
     foreach ($method->getParameters() AS $param) {
       $pName = $param->getName();
-      $getParameters[] = "\$$pName = {$requestVar}['$pName'];";
+
       $args[] = "\$$pName";
+
+      if ($method->getSendParameterAsJson($pName)) {
+        $getParameters[] = "\$$pName = (array) json_decode({$requestVar}['$pName']);";
+      } else {
+        $getParameters[] = "\$$pName = {$requestVar}['$pName'];";
+      }
     }
 
     $templateValues = Array

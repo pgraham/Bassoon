@@ -15,7 +15,9 @@
  */
 namespace bassoon;
 
-use \reed\reflection\ReflectionHelper;
+use \ReflectionMethod;
+
+use \reed\reflection\Annotations;
 /**
  * This class encapsulates information about the generated code for the given
  * RemoteService implementation
@@ -25,11 +27,11 @@ use \reed\reflection\ReflectionHelper;
  */
 class RemoteServiceMethod {
 
+  /* List of method parameters to transfer as JSON */
+  private $_asJson = array();  
+
   /* ReflectionMethod represented by the instance */
   private $_method;
-
-  /* RemoteService of which this method is a part */
-  private $_srvc;
 
   /* The type of request to make when accessing the remote service */
   private $_rqstType;
@@ -37,14 +39,16 @@ class RemoteServiceMethod {
   /* The type of response returned by the service */
   private $_rspsType;
 
+  /* RemoteService of which this method is a part */
+  private $_srvc;
+
   /**
    * Constructor
    *
    * @param ReflectionMethod
    */
-  public function __construct(\ReflectionMethod $method, RemoteService $srvc) {
-    $docComment = $method->getDocComment();
-    $annotations = ReflectionHelper::getAnnotations($docComment);
+  public function __construct(ReflectionMethod $method, RemoteService $srvc) {
+    $annotations = new Annotations($method);
 
     $this->_method = $method;
     $this->_srvc = $srvc;
@@ -61,6 +65,10 @@ class RemoteServiceMethod {
       $rspsType = $annotations['responsetype'];
     }
     $this->_rspsType = $rspsType;
+
+    if (isset($annotations['jsonparameters'])) {
+      $this->_asJson = $annotations['jsonparameters']['parameters'];
+    }
   }
 
   /**
@@ -115,5 +123,16 @@ class RemoteServiceMethod {
    */
   public function getRemoteService() {
     return $this->_srvc;
+  }
+
+  /**
+   * Getter for wether or not the parameter with the given name should
+   * be sent to the server as JSON.
+   *
+   * @param string $parameter The name of the parameter to check
+   * @return boolean
+   */
+  public function getSendParameterAsJson($parameter) {
+    return in_array($parameter, $this->_asJson);
   }
 }
