@@ -63,11 +63,14 @@ class DispatcherBuilder {
 
       $args[] = "\$$pName";
 
-      if ($method->getSendParameterAsJson($pName)) {
-        $getParameters[] = "\$$pName = (array) json_decode({$requestVar}['$pName']);";
-      } else {
-        $getParameters[] = "\$$pName = {$requestVar}['$pName'];";
+      $cast = '';
+      if ($param->isArray()) {
+        // The JSON decode process will return an anonymous object for {} syntax
+        // so if the parameter is expected to be an array perform a cast
+        $cast = '(array) ';
       }
+      $getParameter = "\$$pName = $cast\$params['$pName'];";
+      $getParameters[] = $getParameter;
     }
 
     $templateValues = Array

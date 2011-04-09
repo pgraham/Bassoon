@@ -27,9 +27,6 @@ use \reed\reflection\Annotations;
  */
 class RemoteServiceMethod {
 
-  /* List of method parameters to transfer as JSON */
-  private $_asJson = array();  
-
   /* ReflectionMethod represented by the instance */
   private $_method;
 
@@ -65,10 +62,6 @@ class RemoteServiceMethod {
       $rspsType = $annotations['responsetype'];
     }
     $this->_rspsType = $rspsType;
-
-    if (isset($annotations['jsonparameters'])) {
-      $this->_asJson = $annotations['jsonparameters']['parameters'];
-    }
   }
 
   /**
@@ -123,16 +116,5 @@ class RemoteServiceMethod {
    */
   public function getRemoteService() {
     return $this->_srvc;
-  }
-
-  /**
-   * Getter for wether or not the parameter with the given name should
-   * be sent to the server as JSON.
-   *
-   * @param string $parameter The name of the parameter to check
-   * @return boolean
-   */
-  public function getSendParameterAsJson($parameter) {
-    return in_array($parameter, $this->_asJson);
   }
 }

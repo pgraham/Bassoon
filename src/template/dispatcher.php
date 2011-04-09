@@ -6,6 +6,7 @@ require_once '${servicePath}';
 
 $service = new ${serviceClass}();
 
+$params = (array) json_decode(${requestVar}['params']);
 ${each:getParameters as param}
   ${param}
 ${done}

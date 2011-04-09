@@ -1,6 +1,6 @@
 ${methodName}: function (${join:args:,}) {
   $.${requestType}(p + '${methodName}.php',
-    {${join:argObjProps:,}},
+    { params: JSON.stringify({${join:argObjProps:,}}) },
     cb,
     '${responseType}');
 }
