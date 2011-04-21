@@ -33,6 +33,14 @@ class RemoteServiceMethod {
   /* The type of request to make when accessing the remote service */
   private $_rqstType;
 
+  /*
+   * For get requests, annotating with @noCache will cause each request to be
+   * appended with a timestamp to avoid caching issues with IE.
+   *
+   * @deprecated Cache avoidance should be done in a more RESTful manner
+   */
+  private $_noCache;
+
   /* The type of response returned by the service */
   private $_rspsType;
 
@@ -50,18 +58,20 @@ class RemoteServiceMethod {
     $this->_method = $method;
     $this->_srvc = $srvc;
 
-    $rqstType = 'get';
+    $this->_rqstType = 'get';
     if (isset($annotations['requesttype'])) {
-      $rqstType = $annotations['requesttype'];
+      $this->_rqstType = $annotations['requesttype'];
     }
-    $this->_rqstType = $rqstType;
 
-  
-    $rspsType = 'json';
+    $this->_rspsType = 'json';
     if (isset($annotations['responsetype'])) {
-      $rspsType = $annotations['responsetype'];
+      $this->_rspsType = $annotations['responsetype'];
     }
-    $this->_rspsType = $rspsType;
+
+    $this->_noCache = false;
+    if (isset($annotations['nocache'])) {
+      $this->_noCache = true;
+    }
   }
 
   /**
@@ -80,6 +90,15 @@ class RemoteServiceMethod {
    */
   public function getName() {
     return $this->_method->getName();
+  }
+
+  /**
+   * Getter for whether or not each request should avoid the cache.
+   *
+   * @return boolean
+   */
+  public function getNoCache() {
+    return $this->_noCache;
   }
 
   /**
@@ -117,4 +136,5 @@ class RemoteServiceMethod {
   public function getRemoteService() {
     return $this->_srvc;
   }
+
 }

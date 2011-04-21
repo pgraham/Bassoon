@@ -69,7 +69,8 @@ class ProxyMethodBuilder {
       'responseType' => self::_normResponse($method->getResponseType()),
 
       'args'         => $args,
-      'argObjProps'  => $argObjProps
+      'argObjProps'  => $argObjProps,
+      'noCache'      => $method->getNoCache()
     );
     return $templateValues;
   }
