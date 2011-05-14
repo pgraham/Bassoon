@@ -1,4 +1,4 @@
-${methodName}: function (${join:args:,}) {
+'${methodName}': function (${join:args:,}) {
   var params = { params: JSON.stringify({${join:argObjProps:,}}) }
   ${if:noCache}
     params.nocache = new Date().getTime();
