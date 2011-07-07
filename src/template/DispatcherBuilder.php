@@ -37,56 +37,42 @@ class DispatcherBuilder {
    * @param GeneratorPathInfo $pathInfo
    */
   public static function build(
-    RemoteService $service,
-    RemoteServiceMethod $method,
-    GeneratorPathInfo $pathInfo)
-
+      RemoteService $service,
+      RemoteServiceMethod $method,
+      GeneratorPathInfo $pathInfo)
   {
-    $requires = Array();
-    foreach ($service->getRequires() AS $file) {
-      $requires[] = "require_once '$file';";
-    }
 
-    $responseType = $method->getResponseType();
-    $requestType  = $method->getRequestType();
-
-    if ($requestType == 'post') {
+    if ($method->getRequestType() === 'post') {
       $requestVar = '$_POST';
     } else {
       $requestVar = '$_GET';
     }
 
-    $getParameters = Array();
-    $args = Array();
+    $parameters = array();
+    $args = array();
     foreach ($method->getParameters() AS $param) {
       $pName = $param->getName();
 
       $args[] = "\$$pName";
 
-      $cast = '';
-      if ($param->isArray()) {
-        // The JSON decode process will return an anonymous object for {} syntax
-        // so if the parameter is expected to be an array perform a cast
-        $cast = '(array) ';
-      }
-      $getParameter = "\$$pName = $cast\$params['$pName'];";
-      $getParameters[] = $getParameter;
+      $parameters[] = array(
+        'name' => $pName,
+        'type' => $param->isArray() ? 'array' : 'mixed'
+      );
     }
 
-    $templateValues = Array
+    $templateValues = array
     (
-      'DEBUG'         => defined('DEBUG') && DEBUG === true,
-
-      'requires'      => $requires,
+      'requires'      => $service->getRequires(),
 
       'servicePath'   => $service->getServiceDefinitionPath(),
       'serviceClass'  => $service->getServiceClass(),
       'methodName'    => $method->getName(),
-      'responseType'  => $responseType,
+      'responseType'  => $method->getResponseType(),
       'requestVar'    => $requestVar,
 
       'args'          => $args,
-      'getParameters' => $getParameters
+      'parameters'    => $parameters
     );
 
     $templateLoader = CodeTemplateLoader::get(__DIR__);

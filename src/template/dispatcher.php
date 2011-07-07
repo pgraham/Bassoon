@@ -1,14 +1,18 @@
 <?php
 ${each:requires as required}
-  ${required}
+  require_once '${required}';
 ${done}
 require_once '${servicePath}';
 
 $service = new ${serviceClass}();
 
 $params = (array) json_decode(${requestVar}['params']);
-${each:getParameters as param}
-  ${param}
+${each:parameters as param}
+  ${if:param[type] = array}
+    $${param[name]} = (array) $params['${param[name]}'];
+  ${else}
+    $${param[name]} = $params['${param[name]}'];
+  ${fi}
 ${done}
 
 try {
@@ -31,8 +35,4 @@ try {
 
 } catch (Exception $e) {
   header('HTTP/1.1 500 Internal Server Error');
-
-  ${if:DEBUG}
-  echo json_encode(Array( 'msg' => $e->__toString() ));
-  ${fi}
 }
