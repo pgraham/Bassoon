@@ -12,8 +12,13 @@ Module.${methodName} = function (${join:args:,}) {
     success: cb,
     error: function (jqXHR, textStatus) {
       var errorObj = $.parseJSON(jqXHR.responseText);
-      $('#debugging').append(
-        $('<pre/>').text(errorObj.msg));
+      if (errorObj.msg) {
+        $('#debugging').append(
+          $('<pre/>').text(errorObj.msg));
+
+        $('#debugging').append(
+          $('<pre/>').text(errorObj.trace));
+      }
     }
   });
 }
