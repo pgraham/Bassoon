@@ -11,7 +11,6 @@
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package bassoon
  */
 namespace bassoon;
 
@@ -25,7 +24,6 @@ use \reed\WebSitePathInfo;
  * invoking method can make use the paths to the generated artifacts.
  *
  * @author Philip Graham <philip@zeptech.ca>
- * @package bassoon
  */
 class GeneratorPathInfo {
 

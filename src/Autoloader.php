@@ -11,7 +11,6 @@
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package bassoon
  */
 namespace bassoon;
 
@@ -19,7 +18,6 @@ namespace bassoon;
  * This class provides the autoloader for the bassoon_* classes.
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package bassoon
  */
 class Autoloader {
 

@@ -11,7 +11,6 @@
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package bassoon
  */
 namespace bassoon\template;
 
@@ -24,7 +23,6 @@ use \reed\generator\CodeTemplateLoader;
  * proxy for the given service definition method and path info.
  *
  * @author Philip Graham <philip@zeptech.ca>
- * @package bassoon
  */
 class ProxyMethodBuilder {
 

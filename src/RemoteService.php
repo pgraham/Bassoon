@@ -11,7 +11,6 @@
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package bassoon
  */
 namespace bassoon;
 
@@ -39,7 +38,6 @@ use \reed\reflection\ReflectionHelper;
  * is located.
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package bassoon
  */
 class RemoteService {
 

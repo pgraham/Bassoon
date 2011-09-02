@@ -11,7 +11,6 @@
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package bassoon
  */
 namespace bassoon;
 
@@ -24,7 +23,6 @@ use \bassoon\template\ProxyBuilder;
  * implementation.
  *
  * @author Philip Graham <philip @lightbox.org>
- * @package bassoon
  */
 class ProxyGenerator {
 

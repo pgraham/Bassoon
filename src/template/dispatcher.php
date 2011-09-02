@@ -35,4 +35,10 @@ try {
 
 } catch (Exception $e) {
   header('HTTP/1.1 500 Internal Server Error');
+
+  $v = array(
+    'msg' => $e->getMessage(),
+    'trace' => $e->getTraceAsString()
+  );
+  echo json_encode($v);
 }

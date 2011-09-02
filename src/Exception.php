@@ -11,7 +11,6 @@
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package bassoon
  */
 namespace bassoon;
 
@@ -21,6 +20,5 @@ namespace bassoon;
  * catch blocks.
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package bassoon
  */
 class Exception extends \Exception {}

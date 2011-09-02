@@ -11,7 +11,6 @@
  * =============================================================================
  *
  * @license http://www.opensource.org/licenses/bsd-license.php
- * @package bassoon
  */
 namespace bassoon;
 
@@ -23,7 +22,6 @@ use \reed\reflection\Annotations;
  * RemoteService implementation
  *
  * @author Philip Graham <philip@lightbox.org>
- * @package bassoon
  */
 class RemoteServiceMethod {
 
