@@ -43,8 +43,7 @@ class ProxyBuilder {
     (
       'serviceName'    => $serviceName,
       'serviceWebPath' => $pathInfo->getServiceWebPath($serviceName),
-      'methods'        => Array(),
-      'cookie'         => $service->getCsrfToken() !== null
+      'methods'        => Array()
     );
 
     foreach ($service->getMethods() AS $method) {
