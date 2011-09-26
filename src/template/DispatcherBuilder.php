@@ -14,7 +14,6 @@
  */
 namespace bassoon\template;
 
-use \bassoon\GeneratorPathInfo;
 use \bassoon\RemoteService;
 use \bassoon\RemoteServiceMethod;
 use \reed\generator\CodeTemplateLoader;
@@ -31,14 +30,15 @@ class DispatcherBuilder {
    * Build the PHP code that dispatches a remote method invocation to an
    * instance of the service.
    *
-   * @param RemoteService $service
-   * @param GeneratorPathInfo $pathInfo
+   * @param RemoteService $service The service for a which a dispatcer is to be
+   *   built.
+   * @param RemoteServiceMethod $method The service method for which to build a
+   *   dispatcher.
    */
   public static function build(
       RemoteService $service,
-      RemoteServiceMethod $method,
-      GeneratorPathInfo $pathInfo)
-  {
+      RemoteServiceMethod $method
+  ) {
 
     if ($method->getRequestType() === 'post') {
       $requestVar = '$_POST';

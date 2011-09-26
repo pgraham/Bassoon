@@ -17,7 +17,8 @@ namespace bassoon;
 use ReflectionClass;
 use ReflectionException;
 
-use \reed\reflection\ReflectionHelper;
+use \reed\reflection\Annotations;
+use \reed\File;
 
 /**
  * This class encapsulates information about the generated code for the given
@@ -64,7 +65,6 @@ class RemoteService {
    */
   private $_srvcName;
 
-
   /**
    * Constructor.
    *
@@ -72,88 +72,32 @@ class RemoteService {
    *     represented by the instance
    */
   public function __construct($className) {
-    // Try and reflect the given class with the given name
-    try {
-      $class = new ReflectionClass($className);
-    } catch (ReflectionException $e) {
-      throw new Exception('Could not find class definition: ' . $className);
+    $class = $this->_reflectAndValidateClass($className, $e);
+    if (!$class) {
+      throw $e;
     }
-
-    // Verify that the class isn't declared as abstract
-    if ($class->isAbstract()) {
-      throw new Exception('Remote service classes cannot be abstract: '
-        . $className);
-    }
-
-    // Verify that the class either has no constructor, or a
-    // parameterless constructor
-    $constructor = $class->getConstructor();
-    if ($constructor !== null &&
-        $constructor->getNumberOfRequiredParameters() > 0)
-    {
-      throw new Exception('A service class must either define no constructor or'
-        . ' a constructor with no required parameters: '.$className);
-    }
-
-    // Pull needed information out of the class
-    $pathRoot =  dirname($class->getFileName());
-    $docCmt = $class->getDocComment();
-    $annotations = ReflectionHelper::getAnnotations($docCmt);
-
-    if (isset($annotations['service']) &&
-        isset($annotations['service']['name']))
-    {
-      $srvcName = $annotations['service']['name'];
-    } else {
-      $srvcName = str_replace('\\', '_', $class->getName());
-    }
-    $this->_srvcName = $srvcName;
-
-    
-    if (isset($annotations['requires'])) {
-      if (is_array($annotations['requires'])) {
-        if (isset($annotations['requires']['files'])) {
-          $this->_requires = $annotations['requires']['files'];
-        }
-
-        if (isset($annotations['requires']['file'])) {
-          $this->_requires[] = $annotations['requires']['file'];
-        }
-      } else {
-        $this->_requires[] = $annotations['requires'];
-      }
-
-      $dirReplaced = Array();
-      foreach ($this->_requires AS $required) {
-        $dirReplaced[] = str_replace('__DIR__', $pathRoot, $required);
-      }
-      $this->_requires = $dirReplaced;
-
-      $absolute = Array();
-      foreach ($this->_requires AS $required) {
-        if (substr($required, 0, 1) != '/') {
-          $absolute[] = $pathRoot . '/' . $required;
-        } else {
-          $absolute[] = $required;
-        }
-      }
-      $this->_requires = $absolute;
-    }
-
-    // Annotations -- CSRF token
-    if (isset($annotations['csrftoken'])) {
-      $this->_csrfToken = $annotations['csrftoken'];
-    }
-
-    // Build list of public methods provided by the class.
-    $this->_methods = array();
-    foreach ($class->getMethods() AS $m) {
-      if ($m->isPublic() && !$m->isConstructor() && !$m->isDestructor()) {
-        $this->_methods[] = new RemoteServiceMethod($m, $this);
-      }
-    }
-
     $this->_class = $class;
+
+    $annotations = new Annotations($class);
+
+    $this->_srvcName = $this->_parseServiceName($annotations, $class);
+    $this->_requires = $this->_parseRequires($annotations, $class);
+    $this->_csrfToken = $this->_parseCsrfToken($annotations, $class);
+    $this->_methods = $this->_parseMethods($annotations, $class);
+  }
+
+  /**
+   * Generate the files for the service at the given base output path.
+   *
+   * @param string $proxyOut The path where the proxy file is to output.
+   * @param string $dispatchOut The path where the dispatcher files are to be
+   *   output.
+   * @param string $dispatchWeb Web path to where dispatcher files are to be
+   *   accessed by the proxy.
+   */
+  public function generate($proxyOut, $dispatchOut, $dispatchWeb) {
+    $generator = new Generator($this);
+    $generator->generate($proxyOut, $dispatchOut, $dispatchWeb);
   }
 
   /**
@@ -211,5 +155,109 @@ class RemoteService {
    */
   public function getServiceDefinitionPath() {
     return $this->_class->getFileName();
+  }
+
+  /*
+   * ===========================================================================
+   * Privates
+   * ===========================================================================
+   */
+
+  /* Parse and return any CSRF token specified in the given annotations */
+  private function _parseCsrfToken($annotations, $class) {
+    return isset($annotations['csrftoken'])
+      ? $annotations['csrftoken']
+      : null;
+  }
+
+  /*
+   * Create and return RemoteServiceMethod instances for each of the qualifiying
+   * methods of the given reflection class.
+   */
+  private function _parseMethods($annotations, $class) {
+    // Build list of public methods provided by the class.
+    $methods = array();
+    foreach ($class->getMethods() AS $m) {
+      if ($m->isPublic() && !$m->isConstructor() && !$m->isDestructor()) {
+        $methods[] = new RemoteServiceMethod($m, $this);
+      }
+    }
+    return $methods;
+  }
+
+  /*
+   * Parse the list of files required by the service from the given annotations.
+   */
+  private function _parseRequires($annotations, $class) {
+    if (!$annotations->hasAnnotation('requires')) {
+      return array();
+    }
+
+    if (!is_array($annotations['requires'])) {
+      $reqs = array($annotations['requires']);
+    } else if (isset($annotations['requires']['files'])) {
+      $reqs = $annotations['requires']['files'];
+    } else if (isset($annotations['requires']['file'])) {
+      $reqs = array($annotations['requires']['file']);
+    }
+
+    $pathRoot = dirname($class->getFileName());
+    $reqs = array_map(function ($elm) use ($pathRoot) {
+      $elm = str_replace('__DIR__', $pathRoot, $elm);
+
+      if (substr($elm, 0, 1) != '/') {
+        return "$pathRoot/$elm";
+      } else {
+        return $elm;
+      }
+    }, $reqs);
+
+    return $reqs;
+  }
+
+  /* Parse the services name from the given annotations or return a default. */
+  private function _parseServiceName($annotations, $class) {
+    if ($annotations->hasAnnotation('service', 'name')) {
+      $srvcName = $annotations['service']['name'];
+    } else {
+      $srvcName = str_replace('\\', '_', $class->getName());
+    }
+    return $srvcName;
+  }
+
+  /*
+   * Validate that the given classname is in fact the name of a defined class
+   * and that it meets the requirements of being a service class.  If the
+   * class name meets the criteria of a RemoteService class then a
+   * ReflectionClass instance is returned.
+   */
+  private function _reflectAndValidateClass($className, &$ex) {
+    // Try and reflect the given class with the given name
+    try {
+      $class = new ReflectionClass($className);
+    } catch (ReflectionException $e) {
+      $ex = new Exception('Could not find class definition: ' . $className);
+      return false;
+    }
+
+    // Verify that the class isn't declared as abstract
+    if ($class->isAbstract()) {
+      $ex = new Exception('Remote service classes cannot be abstract: '
+        . $className);
+      return false;
+    }
+
+    // Verify that the class either has no constructor, or a
+    // parameterless constructor
+    $constructor = $class->getConstructor();
+    if ($constructor !== null &&
+        $constructor->getNumberOfRequiredParameters() > 0)
+    {
+      $ex = new Exception('A service class must either define no constructor or'
+        . ' a constructor with no required parameters: '.$className);
+      return false;
+    }
+
+    return $class;
   }
 }

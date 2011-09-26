@@ -14,7 +14,7 @@
  */
 namespace bassoon;
 
-use \reed\WebSitePathInfo;
+use \reed\File;
 
 /**
  * This class generates the server-side dispatcher and client-side proxy for a
@@ -48,19 +48,16 @@ class Generator {
    * This method generates the server side dispatcher and client-side proxy
    * for the service.
    *
-   * @param WebSitePathInfo $pathInfo
-   * @return GeneratorPathInfo Object encapsulating paths for the generated
-   *   artifacts.
+   * @param string $proxyOut The output directory for the proxy
+   * @param string $dispatchOut The output directory for the dispatcher
+   * @param string $dispatchWeb Web path at which the proxy will access the
+   *   dispatcher.
    */
-  public function generate(WebSitePathInfo $pathInfo) {
-    $genPathInfo = new GeneratorPathInfo($pathInfo);
-
+  public function generate($proxyOut, $dispatchOut, $dispatchWeb) {
     $proxyGenerator = new ProxyGenerator($this->_srvc);
-    $proxyGenerator->generate($genPathInfo);
+    $proxyGenerator->generate($proxyOut, $dispatchWeb);
 
     $dispatcherGenerator = new DispatcherGenerator($this->_srvc);
-    $dispatcherGenerator->generate($genPathInfo);
-
-    return $genPathInfo;
+    $dispatcherGenerator->generate($dispatchOut);
   }
 }

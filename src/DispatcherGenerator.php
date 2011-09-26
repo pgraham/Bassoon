@@ -17,6 +17,7 @@ namespace bassoon;
 use \SplFileObject;
 
 use \bassoon\template\DispatcherBuilder;
+use \reed\File;
 
 /**
  * This class generate the server-side dispatcher for a a single
@@ -32,16 +33,22 @@ class DispatcherGenerator {
     $this->_srvc = $srvc;
   }
 
-  public function generate(GeneratorPathInfo $pathInfo) {
-    $dispatcherDir = $pathInfo->getDispatcherPath($this->_srvc->getName());
-    if (!is_dir($dispatcherDir)) {
-      mkdir($dispatcherDir, 0755, true);
+  /**
+   * Generate the files for the service dispatcher and output them to the
+   * specified directory.
+   *
+   * @param string $outPath Path to the directory where generated files are to
+   *   be output.
+   */
+  public function generate($outPath) {
+    if (!is_dir($outPath)) {
+      mkdir($outPath, 0755, true);
     }
 
     foreach ($this->_srvc->getMethods() AS $method) {
-      $template = DispatcherBuilder::build($this->_srvc, $method, $pathInfo);
+      $template = DispatcherBuilder::build($this->_srvc, $method);
 
-      $fileName = $dispatcherDir.'/'.$method->getName().'.php';
+      $fileName = File::joinPaths($outPath, $method->getName().'.php');
       $file = new SplFileObject($fileName, 'w');
       $file->fwrite($template);
     }

@@ -32,16 +32,24 @@ class ProxyGenerator {
     $this->_srvc = $srvc;
   }
 
-  public function generate(GeneratorPathInfo $pathInfo) {
-    $proxyDir = dirname($pathInfo->getProxyPath($this->_srvc->getName()));
+  /**
+   * Generate the javascript proxy the service.  The generated proxy will
+   * attempt to access the service at the spefied web path for the service
+   * dispatcher.
+   *
+   * @param string $outPath Where to output the generated proxy.
+   * @param string $dispatchWeb Web path where the proxy will attempt to access
+   *   the service dispatcher.
+   */
+  public function generate($outPath, $dispatchWeb) {
+    $proxyDir = dirname($outPath);
     if (!file_exists($proxyDir)) {
       mkdir($proxyDir,  0755, true);
     }
 
-    $template = ProxyBuilder::build($this->_srvc, $pathInfo);
+    $template = ProxyBuilder::build($this->_srvc, $dispatchWeb);
 
-    $proxyPath = $pathInfo->getProxyPath($this->_srvc->getName());
-    $file = new SplFileObject($proxyPath, 'w');
+    $file = new SplFileObject($outPath, 'w');
     $file->fwrite($template);
   }
 }

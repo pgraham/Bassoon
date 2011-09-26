@@ -14,7 +14,6 @@
  */
 namespace bassoon\template;
 
-use \bassoon\GeneratorPathInfo;
 use \bassoon\RemoteService;
 use \reed\generator\CodeTemplateLoader;
 
@@ -31,16 +30,15 @@ class ProxyBuilder {
    * and path info.
    *
    * @param RemoteService $service
-   * @param GeneratorPathInfo $pathInfo
+   * @param string $dispatchWeb The web path that will be used by the generated
+   *   proxy to access the service dispatcher.
    */
-  public static function build(RemoteService $service,
-    GeneratorPathInfo $pathInfo)
-  {
+  public static function build(RemoteService $service, $dispatchWeb) {
     $serviceName = $service->getName();
     $templateValues = Array
     (
       'serviceName'    => $serviceName,
-      'serviceWebPath' => $pathInfo->getServiceWebPath($serviceName),
+      'serviceWebPath' => $dispatchWeb,
       'methods'        => Array()
     );
 
