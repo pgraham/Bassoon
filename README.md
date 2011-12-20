@@ -14,6 +14,7 @@ constructor (or no constructor) and using the \bassoon\RemoteService class to
 generate the proxy and dispatcher code. 
 
 ```php
+<?php
 class MyService {
 
     public function doSomething() {
@@ -30,7 +31,7 @@ $srvc->generate($proxyOut, $dispatchOut, $dispatchWeb);
 In the last line the $proxyOut, $dispatchOut and $dispatchWeb parameters are
 important.  Here is an example:
 
-```
+```console
 /var/www/mysite.com
 \_ htdocs
    \- index.php
@@ -43,6 +44,7 @@ important.  Here is an example:
 Assuming index.php in accessed at http://mysite.com/ then possible values are:
 
 ```php
+<?php
 // $proxyOut is the path to a file
 $proxyOut = '/var/www/mysite.com/htdocs/js/MyService.js';
 
@@ -82,6 +84,7 @@ namespace, MyService.  This behaviour can be overridden by specifying a
 @Service annotation with a name parameter on the service class:
 
 ```php
+<?php
 /**
  * @Service(name = MyServiceJsProxy)
  */
@@ -92,7 +95,7 @@ class MyService {
 
 meaning the service is now accessed as:
 
-```php
+```javascript
 window['MyServiceJsProxy'].doSomething(function (data) {
   // Handle service method response ...
 });
