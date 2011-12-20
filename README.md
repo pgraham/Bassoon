@@ -36,11 +36,22 @@ important.  Here is an example:
        \_ ...
     \_ ...
 
-Assuming index.php in accessed at http://mysite.com/ then values are:
+Assuming index.php in accessed at http://mysite.com/ then possible values are:
 
-    $proxyOut = '/var/www/mysite.com/htdocs/js';
-    $dispatchOut = '/var/www/mysite.com/htdocs/ajx';
-    $dispatchWeb = '/ajx';
+    // $proxyOut is the path to a file
+    $proxyOut = '/var/www/mysite.com/htdocs/js/MyService.js';
+
+    // $dispatchOut is the path to a directory
+    $dispatchOut = '/var/www/mysite.com/htdocs/ajx/MyService';
+
+    // $dispatchWeb is the web-accessible path to the directory specified by
+    // $dispatchOut
+    $dispatchWeb = '/ajx/MyService';
+
+
+To include the proxy in a page you would now do:
+
+    <script src="/js/MyService.js"></script>
   
 
 ## Using a proxy
