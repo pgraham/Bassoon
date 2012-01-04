@@ -13,11 +13,7 @@ Module.${methodName} = function (${join:args:,}) {
     error: function (jqXHR, textStatus) {
       var errorObj = $.parseJSON(jqXHR.responseText);
       if (errorObj.msg) {
-        $('#debugging').append(
-          $('<pre/>').text(errorObj.msg));
-
-        $('#debugging').append(
-          $('<pre/>').text(errorObj.trace));
+        cb(errorObj);
       }
     }
   });

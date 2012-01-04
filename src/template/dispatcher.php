@@ -8,11 +8,14 @@ $service = new ${serviceClass}();
 
 $params = (array) json_decode(${requestVar}['params']);
 ${each:parameters as param}
-  ${if:param[type] = array}
-    $${param[name]} = (array) $params['${param[name]}'];
-  ${else}
-    $${param[name]} = $params['${param[name]}'];
-  ${fi}
+  $${param[name]} = null;
+  if (isset($params['${param[name]}'])) {
+    ${if:param[type] = array}
+      $${param[name]} = (array) $params['${param[name]}'];
+    ${else}
+      $${param[name]} = $params['${param[name]}'];
+    ${fi}
+  }
 ${done}
 
 try {
@@ -36,9 +39,10 @@ try {
 } catch (Exception $e) {
   header('HTTP/1.1 500 Internal Server Error');
 
+  error_log($e->getMessage() . "\n\n" . $e->getTraceAsString());
+
   $v = array(
-    'msg' => $e->getMessage(),
-    'trace' => $e->getTraceAsString()
+    'msg' => $e->getMessage()
   );
   echo json_encode($v);
 }
