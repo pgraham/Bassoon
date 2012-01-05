@@ -12,7 +12,7 @@ Module.${methodName} = function (${join:args:,}) {
     success: cb,
     error: function (jqXHR, textStatus) {
       var errorObj = $.parseJSON(jqXHR.responseText);
-      if (errorObj.msg) {
+      if (errorObj && errorObj.msg) {
         cb(errorObj);
       }
     }

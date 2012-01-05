@@ -6,14 +6,14 @@ require_once '${servicePath}';
 
 $service = new ${serviceClass}();
 
-$params = (array) json_decode(${requestVar}['params']);
+$bassoon_request_data = (array) json_decode(${requestVar}['params']);
 ${each:parameters as param}
   $${param[name]} = null;
-  if (isset($params['${param[name]}'])) {
+  if (isset($bassoon_request_data['${param[name]}'])) {
     ${if:param[type] = array}
-      $${param[name]} = (array) $params['${param[name]}'];
+      $${param[name]} = (array) $bassoon_request_data['${param[name]}'];
     ${else}
-      $${param[name]} = $params['${param[name]}'];
+      $${param[name]} = $bassoon_request_data['${param[name]}'];
     ${fi}
   }
 ${done}
