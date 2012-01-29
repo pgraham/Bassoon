@@ -19,6 +19,7 @@ use ReflectionException;
 
 use \reed\reflection\Annotations;
 use \reed\File;
+use \reed\WebSitePathInfo;
 
 /**
  * This class encapsulates information about the generated code for the given
@@ -54,6 +55,9 @@ class RemoteService {
   /* List of public methods to be provided by the service. */
   private $_methods;
 
+  /* Pathinfo for the website to which the generated service belongs. */
+  private $_pathInfo;
+
   /*
    * Files required by the service.  These will be included by the dispatcher.
    */
@@ -65,18 +69,20 @@ class RemoteService {
    */
   private $_srvcName;
 
+
   /**
    * Constructor.
    *
    * @param string - The name of the Bassoon_RemoteService implementation
    *     represented by the instance
    */
-  public function __construct($className) {
+  public function __construct($className, WebSitePathInfo $pathInfo) {
     $class = $this->_reflectAndValidateClass($className, $e);
     if (!$class) {
       throw $e;
     }
     $this->_class = $class;
+    $this->_pathInfo = $pathInfo;
 
     $annotations = new Annotations($class);
 
@@ -95,9 +101,9 @@ class RemoteService {
    * @param string $dispatchWeb Web path to where dispatcher files are to be
    *   accessed by the proxy.
    */
-  public function generate($proxyOut, $dispatchOut, $dispatchWeb) {
+  public function generate() {
     $generator = new Generator($this);
-    $generator->generate($proxyOut, $dispatchOut, $dispatchWeb);
+    $generator->generate($this->_pathInfo);
   }
 
   /**
@@ -201,12 +207,16 @@ class RemoteService {
       $reqs = array($annotations['requires']['file']);
     }
 
-    $pathRoot = dirname($class->getFileName());
-    $reqs = array_map(function ($elm) use ($pathRoot) {
-      $elm = str_replace('__DIR__', $pathRoot, $elm);
+    $toReplace = array('__DIR__', '__ROOT__');
+    $replaceWith = array(
+      dirname($class->getFileName()),
+      $this->_pathInfo->getRootPath()
+    );
+    $reqs = array_map(function ($elm) use ($toReplace, $replaceWith) {
+      $elm = str_replace($toReplace, $replaceWith, $elm);
 
       if (substr($elm, 0, 1) != '/') {
-        return "$pathRoot/$elm";
+        return "$replaceWith[0]/$elm";
       } else {
         return $elm;
       }
